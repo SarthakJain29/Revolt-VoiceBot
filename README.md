@@ -33,14 +33,12 @@ A real-time voice chat application powered by Google's Gemini AI, built with Rea
 
 3. **Set up your Gemini API key**
    
-   Option A: Environment variable (recommended)
+   Environment variable (recommended)
    ```bash
    # Create a .env file in the root directory
    echo "GEMINI_API_KEY=your_api_key_here" > .env
    ```
-   
-   Option B: Set via UI
-   - Start the application and use the API key setup interface
+
 
 4. **Start the application**
    ```bash
@@ -61,23 +59,6 @@ A real-time voice chat application powered by Google's Gemini AI, built with Rea
    - Navigate to `http://localhost:8081` (or the port shown in your terminal)
    - Allow microphone permissions when prompted
    - Click the microphone button to start talking!
-
-## How to Use
-
-1. **First Time Setup**
-   - If you haven't set your API key via environment variable, you'll see an API key setup screen
-   - Enter your Gemini API key and click "Set API Key"
-
-2. **Voice Chat**
-   - Click the microphone button to start recording
-   - Speak clearly into your microphone
-   - The AI will process your speech and respond with both text and voice
-   - Click the button again to stop recording
-
-3. **Browser Compatibility**
-   - **Chrome/Edge**: Full support for voice features
-   - **Safari**: Good support, may need HTTPS in production
-   - **Firefox**: Limited speech recognition support
 
 ## Troubleshooting
 
@@ -111,21 +92,6 @@ To get a Gemini API key:
 2. Create a new API key
 3. Copy the key and add it to your `.env` file or use the UI setup
 
-## Project Structure
-
-```
-├── src/
-│   ├── components/
-│   │   ├── VoiceChat.tsx      # Main voice chat interface
-│   │   ├── ApiKeySetup.tsx    # API key configuration
-│   │   └── ui/                # UI components
-│   ├── pages/
-│   │   └── Index.tsx          # Main page
-│   └── ...
-├── server.js                  # Backend server with Socket.IO
-├── package.json
-└── README.md
-```
 
 ## Technologies Used
 
@@ -145,19 +111,4 @@ To get a Gemini API key:
 - `npm run build` - Build for production
 - `npm run lint` - Run ESLint
 
-### Environment Variables
-
-- `GEMINI_API_KEY` - Your Google Gemini API key
-- `PORT` - Backend server port (default: 3001)
-
-## License
-
-This project is licensed under the MIT License.
-
-## Support
-
-If you encounter any issues:
-1. Check the troubleshooting section above
-2. Ensure all prerequisites are met
-3. Check the browser console for error messages
-4. Verify your API key is valid and has proper permissions
+##Made With ❤️ By Sarthak Jain
