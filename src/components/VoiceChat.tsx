@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import io, { Socket } from 'socket.io-client';
 
 type VoiceState = 'idle' | 'connecting' | 'listening' | 'processing' | 'speaking' | 'error';
@@ -251,13 +252,14 @@ export const VoiceChat: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div className="flex items-center justify-center p-6 border-b">
+      <div className="flex items-center justify-between p-6 border-b backdrop-blur-sm">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-            <span className="text-accent-foreground font-bold text-sm">R</span>
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center shadow-glow">
+            <span className="text-primary-foreground font-bold text-sm">R</span>
           </div>
-          <h1 className="text-2xl font-bold">Talk to Rev</h1>
+          <h1 className="text-2xl font-bold gradient-text">Talk to Rev</h1>
         </div>
+        <ThemeToggle />
       </div>
 
       {/* Chat Messages */}
@@ -292,12 +294,12 @@ export const VoiceChat: React.FC = () => {
               variant={getButtonVariant()}
               onClick={handleVoiceAction}
               disabled={voiceState === 'processing' || voiceState === 'speaking' || voiceState === 'connecting'}
-              className="w-20 h-20 rounded-full"
+              className="w-20 h-20 rounded-full button-glow hover-lift animate-pulse-glow"
             >
               {voiceState === 'processing' || voiceState === 'connecting' ? (
                 <Loader2 className="w-8 h-8 animate-spin" />
               ) : voiceState === 'listening' ? (
-                <Mic className="w-8 h-8" />
+                <Mic className="w-8 h-8 animate-pulse" />
               ) : (
                 <Mic className="w-8 h-8" />
               )}

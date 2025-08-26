@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { Eye, EyeOff, ExternalLink } from 'lucide-react';
 
 interface ApiKeySetupProps {
@@ -68,15 +69,18 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ onApiKeySet }) => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background via-background to-primary/5">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
+      <Card className="w-full max-w-md shadow-elegant glass-card">
+        <CardHeader className="text-center relative">
+          <div className="absolute top-4 right-4">
+            <ThemeToggle />
+          </div>
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center shadow-glow animate-float">
               <span className="text-primary-foreground font-bold">R</span>
             </div>
-            <CardTitle className="text-2xl">Talk to Rev</CardTitle>
+            <CardTitle className="text-2xl gradient-text">Talk to Rev</CardTitle>
           </div>
-          <CardDescription>
+          <CardDescription className="text-muted-foreground">
             Configure your Gemini API key to start the voice chat experience
           </CardDescription>
         </CardHeader>
@@ -113,7 +117,7 @@ export const ApiKeySetup: React.FC<ApiKeySetupProps> = ({ onApiKeySet }) => {
             <div className="space-y-3">
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full hover-lift button-glow"
                 disabled={isLoading}
               >
                 {isLoading ? "Configuring..." : "Start Voice Chat"}

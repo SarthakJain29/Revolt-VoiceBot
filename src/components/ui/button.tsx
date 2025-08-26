@@ -18,9 +18,12 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        premium: "bg-gradient-to-r from-premium to-primary text-premium-foreground hover:shadow-glow transform hover:scale-105",
+        hero: "bg-gradient-to-r from-primary/10 to-primary/5 backdrop-blur-sm border-primary/20 text-foreground hover:bg-primary/20 shadow-elegant",
+        glass: "glass-card hover:bg-white/20 dark:hover:bg-white/10",
         voice: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg transform transition-all duration-200 hover:scale-105",
         "voice-listening": "bg-voice-listening text-white animate-pulse shadow-[0_0_30px_hsl(var(--voice-listening)/0.5)]",
-        "voice-processing": "bg-primary text-primary-foreground animate-pulse",
+        "voice-processing": "bg-voice-processing text-white animate-pulse",
         "voice-speaking": "bg-voice-speaking text-white shadow-[0_0_30px_hsl(var(--voice-speaking)/0.5)]",
       },
       size: {

@@ -1,8 +1,8 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-const cors = require('cors');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import express from 'express';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
+import cors from 'cors';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const app = express();
 const server = http.createServer(app);
@@ -22,7 +22,7 @@ app.use(cors({
   credentials: true
 }));
 
-const io = socketIo(server, {
+const io = new SocketIOServer(server, {
   cors: {
     origin: allowedOrigins,
     methods: ['GET', 'POST'],
@@ -245,4 +245,4 @@ server.listen(PORT, '0.0.0.0', () => {
   }
 });
 
-module.exports = app;
+export default app;
