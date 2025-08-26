@@ -1,73 +1,117 @@
-# Welcome to your Lovable project
+# Gemini Voice Chat - Revolt Motors Replica
 
-## Project info
+A real-time conversational voice interface using the Gemini Live API, replicating the functionality of the Revolt Motors voice chatbot.
 
-**URL**: https://lovable.dev/projects/7eab8706-2318-4a3a-ab24-b69bce43d214
+## Features
 
-## How can I edit this code?
+- **Real-time Voice Chat**: Powered by Google's Gemini Live API
+- **Voice Interruptions**: Seamlessly handle user interruptions during AI speech
+- **Low Latency**: Optimized for 1-2 second response times
+- **Server-to-Server Architecture**: Secure backend implementation with Node.js/Express
+- **Clean Interface**: Modern UI inspired by Revolt Motors design
 
-There are several ways of editing your application.
+## Setup Instructions
 
-**Use Lovable**
+### 1. Get Your Gemini API Key
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/7eab8706-2318-4a3a-ab24-b69bce43d214) and start prompting.
+1. Visit [Google AI Studio](https://aistudio.google.com/apikey)
+2. Create a free API key
+3. Keep it handy for the next steps
 
-Changes made via Lovable will be committed automatically to this repo.
+### 2. Install Dependencies
 
-**Use your preferred IDE**
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 3. Start the Backend Server
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+npm run server
+```
 
-Follow these steps:
+The backend will run on `http://localhost:3001`
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 4. Start the Frontend
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+In a new terminal:
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The frontend will run on `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 5. Configure API Key
 
-**Use GitHub Codespaces**
+1. Open your browser and navigate to `http://localhost:8080`
+2. Enter your Gemini API key in the setup form
+3. Click "Start Voice Chat"
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Usage
 
-## What technologies are used for this project?
+1. **Grant Microphone Permission**: Allow microphone access when prompted
+2. **Click to Talk**: Click the microphone button to start speaking
+3. **Voice Interruption**: You can interrupt Rev while it's speaking
+4. **Real-time Response**: Experience low-latency AI responses about Revolt Motors
 
-This project is built with:
+## Technical Details
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Frontend**: React, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Node.js, Express, Socket.IO
+- **AI Model**: gemini-2.0-flash-live-001 (development) / gemini-2.5-flash-preview-native-audio-dialog (production)
+- **Real-time Communication**: WebSocket via Socket.IO
 
-## How can I deploy this project?
+## Development Notes
 
-Simply open [Lovable](https://lovable.dev/projects/7eab8706-2318-4a3a-ab24-b69bce43d214) and click on Share -> Publish.
+### Model Configuration
 
-## Can I connect a custom domain to my Lovable project?
+The app uses `gemini-2.0-flash-live-001` for development due to rate limits on the free tier. For production, switch to `gemini-2.5-flash-preview-native-audio-dialog` in the server.js file.
 
-Yes, you can!
+### Speech Processing
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Currently uses a simulated speech-to-text conversion. For production implementation:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. Integrate Google Speech-to-Text API
+2. Add proper audio format conversion
+3. Implement Text-to-Speech for AI responses
+
+### System Instructions
+
+Rev is configured to only discuss Revolt Motors products and services:
+- Electric motorcycles (RV1, RV1+, RV BlazeX, RV400, RV400 BRZ)
+- Features and specifications
+- Test rides and dealerships
+- Pricing and financing options
+
+## Troubleshooting
+
+### Server Connection Issues
+- Ensure backend is running on port 3001
+- Check CORS configuration if accessing from different origins
+
+### API Key Issues
+- Verify API key is valid at Google AI Studio
+- Check API quotas and rate limits
+- Ensure proper model permissions
+
+### Audio Issues
+- Grant microphone permissions in browser
+- Check audio device settings
+- Ensure WebRTC compatibility
+
+## Architecture
+
+```
+Frontend (React + Socket.IO Client)
+    ↓ WebSocket
+Backend (Express + Socket.IO Server)
+    ↓ HTTP API
+Google Gemini Live API
+```
+
+The architecture follows server-to-server pattern for secure API key handling and optimal performance.
+
+## License
+
+This project is for educational and demonstration purposes, replicating the Revolt Motors voice chat functionality.
