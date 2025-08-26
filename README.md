@@ -1,117 +1,163 @@
-# Gemini Voice Chat - Revolt Motors Replica
+# Voice Chat Bot with Gemini AI
 
-A real-time conversational voice interface using the Gemini Live API, replicating the functionality of the Revolt Motors voice chatbot.
+A real-time voice chat application powered by Google's Gemini AI, built with React, Node.js, and Web Speech API.
 
 ## Features
 
-- **Real-time Voice Chat**: Powered by Google's Gemini Live API
-- **Voice Interruptions**: Seamlessly handle user interruptions during AI speech
-- **Low Latency**: Optimized for 1-2 second response times
-- **Server-to-Server Architecture**: Secure backend implementation with Node.js/Express
-- **Clean Interface**: Modern UI inspired by Revolt Motors design
+- 🎤 **Real-time Voice Chat**: Speak naturally with the AI assistant
+- 🧠 **Gemini AI Integration**: Powered by Google's latest AI model
+- 🔊 **Text-to-Speech**: AI responses are spoken back to you
+- 🎨 **Modern UI**: Beautiful, responsive interface with dark/light themes
+- ⚡ **Real-time Communication**: WebSocket-based communication
+- 🏍️ **Revolt Motors Assistant**: Specialized knowledge about electric motorcycles
 
-## Setup Instructions
+## Prerequisites
 
-### 1. Get Your Gemini API Key
+- Node.js (v16 or higher)
+- npm or yarn
+- Google Gemini API key
+- Modern browser with Web Speech API support (Chrome, Edge, Safari)
 
-1. Visit [Google AI Studio](https://aistudio.google.com/apikey)
-2. Create a free API key
-3. Keep it handy for the next steps
+## Setup
 
-### 2. Install Dependencies
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd gemini-voice-replika
+   ```
 
-```bash
-npm install
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### 3. Start the Backend Server
+3. **Set up your Gemini API key**
+   
+   Option A: Environment variable (recommended)
+   ```bash
+   # Create a .env file in the root directory
+   echo "GEMINI_API_KEY=your_api_key_here" > .env
+   ```
+   
+   Option B: Set via UI
+   - Start the application and use the API key setup interface
 
-```bash
-npm run server
-```
+4. **Start the application**
+   ```bash
+   # Start both frontend and backend servers
+   npm run dev:full
+   ```
+   
+   Or start them separately:
+   ```bash
+   # Terminal 1: Start backend server
+   npm run server
+   
+   # Terminal 2: Start frontend development server
+   npm run dev
+   ```
 
-The backend will run on `http://localhost:3001`
+5. **Open your browser**
+   - Navigate to `http://localhost:8081` (or the port shown in your terminal)
+   - Allow microphone permissions when prompted
+   - Click the microphone button to start talking!
 
-### 4. Start the Frontend
+## How to Use
 
-In a new terminal:
+1. **First Time Setup**
+   - If you haven't set your API key via environment variable, you'll see an API key setup screen
+   - Enter your Gemini API key and click "Set API Key"
 
-```bash
-npm run dev
-```
+2. **Voice Chat**
+   - Click the microphone button to start recording
+   - Speak clearly into your microphone
+   - The AI will process your speech and respond with both text and voice
+   - Click the button again to stop recording
 
-The frontend will run on `http://localhost:8080`
-
-### 5. Configure API Key
-
-1. Open your browser and navigate to `http://localhost:8080`
-2. Enter your Gemini API key in the setup form
-3. Click "Start Voice Chat"
-
-## Usage
-
-1. **Grant Microphone Permission**: Allow microphone access when prompted
-2. **Click to Talk**: Click the microphone button to start speaking
-3. **Voice Interruption**: You can interrupt Rev while it's speaking
-4. **Real-time Response**: Experience low-latency AI responses about Revolt Motors
-
-## Technical Details
-
-- **Frontend**: React, TypeScript, Tailwind CSS, shadcn/ui
-- **Backend**: Node.js, Express, Socket.IO
-- **AI Model**: gemini-2.0-flash-live-001 (development) / gemini-2.5-flash-preview-native-audio-dialog (production)
-- **Real-time Communication**: WebSocket via Socket.IO
-
-## Development Notes
-
-### Model Configuration
-
-The app uses `gemini-2.0-flash-live-001` for development due to rate limits on the free tier. For production, switch to `gemini-2.5-flash-preview-native-audio-dialog` in the server.js file.
-
-### Speech Processing
-
-Currently uses a simulated speech-to-text conversion. For production implementation:
-
-1. Integrate Google Speech-to-Text API
-2. Add proper audio format conversion
-3. Implement Text-to-Speech for AI responses
-
-### System Instructions
-
-Rev is configured to only discuss Revolt Motors products and services:
-- Electric motorcycles (RV1, RV1+, RV BlazeX, RV400, RV400 BRZ)
-- Features and specifications
-- Test rides and dealerships
-- Pricing and financing options
+3. **Browser Compatibility**
+   - **Chrome/Edge**: Full support for voice features
+   - **Safari**: Good support, may need HTTPS in production
+   - **Firefox**: Limited speech recognition support
 
 ## Troubleshooting
 
-### Server Connection Issues
-- Ensure backend is running on port 3001
-- Check CORS configuration if accessing from different origins
+### Common Issues
 
-### API Key Issues
-- Verify API key is valid at Google AI Studio
-- Check API quotas and rate limits
-- Ensure proper model permissions
+1. **"Microphone Access Required"**
+   - Make sure you've allowed microphone permissions in your browser
+   - Refresh the page and try again
 
-### Audio Issues
-- Grant microphone permissions in browser
-- Check audio device settings
-- Ensure WebRTC compatibility
+2. **"Browser Not Supported"**
+   - Use Chrome, Edge, or Safari for best compatibility
+   - Ensure you're using a modern browser version
 
-## Architecture
+3. **"Server Connection" Error**
+   - Make sure the backend server is running on port 3001
+   - Check that no other application is using the same port
+
+4. **"API key not configured"**
+   - Set your Gemini API key via environment variable or UI
+   - Ensure the API key is valid and has proper permissions
+
+5. **Speech Recognition Not Working**
+   - Check that your microphone is working and not muted
+   - Try speaking more clearly and slowly
+   - Ensure you're in a quiet environment
+
+### API Key Setup
+
+To get a Gemini API key:
+1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Create a new API key
+3. Copy the key and add it to your `.env` file or use the UI setup
+
+## Project Structure
 
 ```
-Frontend (React + Socket.IO Client)
-    ↓ WebSocket
-Backend (Express + Socket.IO Server)
-    ↓ HTTP API
-Google Gemini Live API
+├── src/
+│   ├── components/
+│   │   ├── VoiceChat.tsx      # Main voice chat interface
+│   │   ├── ApiKeySetup.tsx    # API key configuration
+│   │   └── ui/                # UI components
+│   ├── pages/
+│   │   └── Index.tsx          # Main page
+│   └── ...
+├── server.js                  # Backend server with Socket.IO
+├── package.json
+└── README.md
 ```
 
-The architecture follows server-to-server pattern for secure API key handling and optimal performance.
+## Technologies Used
+
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS
+- **Backend**: Node.js, Express, Socket.IO
+- **AI**: Google Gemini API
+- **Voice**: Web Speech API (Speech Recognition & Synthesis)
+- **UI**: Shadcn/ui components
+
+## Development
+
+### Available Scripts
+
+- `npm run dev:full` - Start both frontend and backend
+- `npm run dev` - Start frontend only
+- `npm run server` - Start backend only
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+
+### Environment Variables
+
+- `GEMINI_API_KEY` - Your Google Gemini API key
+- `PORT` - Backend server port (default: 3001)
 
 ## License
 
-This project is for educational and demonstration purposes, replicating the Revolt Motors voice chat functionality.
+This project is licensed under the MIT License.
+
+## Support
+
+If you encounter any issues:
+1. Check the troubleshooting section above
+2. Ensure all prerequisites are met
+3. Check the browser console for error messages
+4. Verify your API key is valid and has proper permissions

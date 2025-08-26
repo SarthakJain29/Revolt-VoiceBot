@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Revolt Motors Voice Chat Design System ===== */
-
 :root {
   /* Background & Surfaces */
   --background: 220 15% 97%;
@@ -156,27 +154,10 @@
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-xl bg-glass border border-white/20 shadow-glass;
-  }
-
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent;
-  }
-
-  .hover-lift {
-    @apply transform transition-all duration-300 hover:scale-105 hover:shadow-elegant;
-  }
-
-  .button-glow {
-    @apply shadow-glow transition-all duration-300;
-  }
-
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 }
 

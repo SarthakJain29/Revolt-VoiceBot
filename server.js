@@ -3,7 +3,9 @@ import http from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import cors from 'cors';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
@@ -11,6 +13,8 @@ const server = http.createServer(app);
 const allowedOrigins = [
   'http://localhost:8080', 
   'http://127.0.0.1:8080',
+  'http://localhost:8081',
+  'http://127.0.0.1:8081',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'https://7eab8706-2318-4a3a-ab24-b69bce43d214.sandbox.lovable.dev'
@@ -81,15 +85,15 @@ function initializeAI(apiKey) {
   try {
     genAI = new GoogleGenerativeAI(apiKey);
     
-    // Use the recommended model for production
+    // Use a text model suitable for generateContent over HTTP
     model = genAI.getGenerativeModel({ 
-      model: "gemini-2.0-flash-live-001", // Using this for development due to rate limits
+      model: "gemini-1.5-flash",
       systemInstruction: SYSTEM_INSTRUCTION,
       generationConfig: {
         temperature: 0.7,
         topP: 0.8,
         topK: 40,
-        maxOutputTokens: 150, // Keep responses concise for voice
+        maxOutputTokens: 150,
       }
     });
     
@@ -139,66 +143,61 @@ io.on('connection', (socket) => {
   socket.on('audio_message', async (data) => {
     try {
       if (!model) {
-        socket.emit('error', 'Gemini AI not initialized. Please configure API key.');
+        socket.emit('ai_error', 'Gemini AI not initialized. Please configure API key.');
         return;
       }
 
-      const { audio, mimeType } = data;
-      
-      // Convert audio buffer to text using speech recognition
-      // Note: For production, you might want to use Google's Speech-to-Text API
-      // For now, we'll simulate speech-to-text conversion
-      const transcription = await simulateSTT(audio, mimeType);
-      
-      if (!transcription) {
-        socket.emit('error', 'Could not process audio. Please try speaking again.');
+      const { transcription } = data;
+      if (!transcription || typeof transcription !== 'string') {
+        socket.emit('ai_error', 'No transcription received from client.');
         return;
       }
 
-      console.log('Transcription:', transcription);
+      console.log(`[${socket.id}] Received transcription (${transcription.length} chars):`, transcription);
+
+      // Add a small delay to prevent rapid-fire responses
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       // Generate AI response
       const result = await model.generateContent(transcription);
       const response = result.response.text();
       
-      console.log('AI Response:', response);
+      console.log(`[${socket.id}] AI Response (${response.length} chars)`);
 
       // Send response back to client
       socket.emit('ai_response', {
         text: response,
-        transcription: transcription
-        // Note: For actual audio response, you'd use Text-to-Speech API
+        transcription
       });
 
     } catch (error) {
       console.error('Error processing audio message:', error);
-      socket.emit('error', 'Failed to process your message. Please try again.');
+      const message = (error && error.message) ? error.message : 'Failed to process your message. Please try again.';
+      socket.emit('ai_error', message);
     }
   });
 
   socket.on('text_message', async (data) => {
     try {
       if (!model) {
-        socket.emit('error', 'Gemini AI not initialized. Please configure API key.');
+        socket.emit('ai_error', 'Gemini AI not initialized. Please configure API key.');
         return;
       }
 
       const { message } = data;
       console.log('Text message:', message);
 
-      // Generate AI response
       const result = await model.generateContent(message);
       const response = result.response.text();
       
       console.log('AI Response:', response);
 
-      socket.emit('ai_response', {
-        text: response
-      });
+      socket.emit('ai_response', { text: response });
 
     } catch (error) {
       console.error('Error processing text message:', error);
-      socket.emit('error', 'Failed to process your message. Please try again.');
+      const msg = (error && error.message) ? error.message : 'Failed to process your message. Please try again.';
+      socket.emit('ai_error', msg);
     }
   });
 
@@ -206,25 +205,6 @@ io.on('connection', (socket) => {
     console.log('Client disconnected:', socket.id);
   });
 });
-
-// Simulate speech-to-text conversion
-// In production, integrate with Google Speech-to-Text API or similar
-async function simulateSTT(audioBuffer, mimeType) {
-  try {
-    // This is a placeholder. In a real implementation:
-    // 1. Convert audio format if needed
-    // 2. Send to Speech-to-Text API
-    // 3. Return transcription
-    
-    // For demo purposes, return a sample transcription
-    // You could also implement Web Speech API on the client side
-    return "Hello, I'm interested in Revolt electric bikes. Can you tell me about the RV400?";
-    
-  } catch (error) {
-    console.error('STT simulation error:', error);
-    return null;
-  }
-}
 
 // Initialize AI if API key is provided via environment
 if (GEMINI_API_KEY) {

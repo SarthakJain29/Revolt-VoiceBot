@@ -53,12 +53,9 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				voice: {
-					active: 'hsl(var(--voice-active))',
-					listening: 'hsl(var(--voice-listening))',
-					speaking: 'hsl(var(--voice-speaking))',
-					error: 'hsl(var(--voice-error))'
-				},
+				'voice-listening': 'hsl(var(--voice-listening))',
+				'voice-processing': 'hsl(var(--voice-processing))',
+				'voice-speaking': 'hsl(var(--voice-speaking))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
