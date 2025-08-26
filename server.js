@@ -7,22 +7,39 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 const server = http.createServer(app);
 
-// CORS configuration
+// CORS configuration - Allow multiple origins for development
+const allowedOrigins = [
+  'http://localhost:8080', 
+  'http://127.0.0.1:8080',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://7eab8706-2318-4a3a-ab24-b69bce43d214.sandbox.lovable.dev'
+];
+
 app.use(cors({
-  origin: ['http://localhost:8080', 'http://127.0.0.1:8080'],
+  origin: allowedOrigins,
   methods: ['GET', 'POST'],
   credentials: true
 }));
 
 const io = socketIo(server, {
   cors: {
-    origin: ['http://localhost:8080', 'http://127.0.0.1:8080'],
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
 
 app.use(express.json());
+
+// Basic health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    server: 'voice-chat-server'
+  });
+});
 
 // System instructions for Revolt Motors
 const SYSTEM_INSTRUCTION = `
@@ -107,9 +124,11 @@ app.post('/set-api-key', (req, res) => {
 
 // Check if API key is configured
 app.get('/api-status', (req, res) => {
+  console.log('API status check - API key:', !!GEMINI_API_KEY, 'Model:', !!model);
   res.json({ 
     configured: !!GEMINI_API_KEY && !!model,
-    message: GEMINI_API_KEY ? 'API key configured' : 'API key required'
+    message: GEMINI_API_KEY ? 'API key configured' : 'API key required',
+    server: 'running'
   });
 });
 
@@ -213,12 +232,16 @@ if (GEMINI_API_KEY) {
 }
 
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Voice chat server running on port ${PORT}`);
-  console.log(`WebSocket endpoint: ws://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Voice chat server running on port ${PORT}`);
+  console.log(`🌐 WebSocket endpoint: ws://localhost:${PORT}`);
+  console.log(`📡 API endpoint: http://localhost:${PORT}/api-status`);
+  console.log(`🔗 Allowed CORS origins:`, allowedOrigins);
   
   if (!GEMINI_API_KEY) {
     console.log('⚠️  Gemini API key not configured. Set GEMINI_API_KEY environment variable or use /set-api-key endpoint');
+  } else {
+    console.log('✅ Gemini API key is configured');
   }
 });
 
