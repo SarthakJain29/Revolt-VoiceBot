@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { VoiceChat } from '@/components/VoiceChat';
-import { ApiKeySetup } from '@/components/ApiKeySetup';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
@@ -30,10 +29,6 @@ const Index = () => {
     checkApiStatus();
   }, [toast]);
 
-  const handleApiKeySet = () => {
-    setIsApiConfigured(true);
-  };
-
   if (isCheckingApi) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -46,7 +41,13 @@ const Index = () => {
   }
 
   if (!isApiConfigured) {
-    return <ApiKeySetup onApiKeySet={handleApiKeySet} />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-muted-foreground">
+          API is not configured. Please check your backend setup.
+        </p>
+      </div>
+    );
   }
 
   return <VoiceChat />;

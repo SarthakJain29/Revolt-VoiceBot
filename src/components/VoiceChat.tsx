@@ -313,8 +313,10 @@ export const VoiceChat: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between p-6 border-b backdrop-blur-sm">
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center shadow-glow">
-            <span className="text-primary-foreground font-bold text-sm">R</span>
+          <div className="w-15 h-15 flex items-center justify-center shadow-glow">
+            <img 
+              src="https://live.revoltmotors.com/images/Rev.gif" 
+              alt="Logo"  />
           </div>
           <div>
             <h1 className="text-2xl font-bold">Talk to Rev</h1>
