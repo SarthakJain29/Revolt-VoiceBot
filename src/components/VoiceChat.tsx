@@ -266,7 +266,7 @@ export const VoiceChat: React.FC = () => {
   const getStatusText = () => {
     switch (voiceState) {
       case 'connecting': return 'Connecting...';
-      case 'listening': return 'Listening... (tap to stop)';
+      case 'listening': return 'Listening...';
       case 'processing': return 'Thinking...';
       case 'speaking': return 'Responding...';
       case 'error': return 'Error - Tap mic to retry';
@@ -374,7 +374,7 @@ export const VoiceChat: React.FC = () => {
           
           {isConversationMode && (
             <p className="text-xs text-green-600 mt-2">
-              Listening continuously. Tap mic to stop.
+              Tap mic to stop.
             </p>
           )}
         </div>

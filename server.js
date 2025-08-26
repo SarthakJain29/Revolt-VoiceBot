@@ -9,7 +9,6 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-// CORS configuration - Allow multiple origins for development
 const allowedOrigins = [
   'http://localhost:8080', 
   'http://127.0.0.1:8080',
@@ -17,7 +16,6 @@ const allowedOrigins = [
   'http://127.0.0.1:8081',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
-  'https://7eab8706-2318-4a3a-ab24-b69bce43d214.sandbox.lovable.dev'
 ];
 
 app.use(cors({
@@ -85,9 +83,8 @@ function initializeAI(apiKey) {
   try {
     genAI = new GoogleGenerativeAI(apiKey);
     
-    // Use a text model suitable for generateContent over HTTP
     model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash-preview-native-audio-dialog",
       systemInstruction: SYSTEM_INSTRUCTION,
       generationConfig: {
         temperature: 0.7,
